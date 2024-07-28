@@ -5,7 +5,6 @@ export default function TicketForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("1");
-
   const priorityLabels = {
     1: "Low",
     2: "Medium",
@@ -19,9 +18,17 @@ export default function TicketForm() {
   };
 
   const handelSubmit = (e) => {
-    clearFrom();
     e.preventDefault();
+    const ticketData = {
+      id: new Date().toISOString(),
+      title,
+      description,
+      priority,
+    };
+    console.log(ticketData);
+    clearFrom();
   };
+
   return (
     <form onSubmit={handelSubmit} className="ticket-form">
       <div>
