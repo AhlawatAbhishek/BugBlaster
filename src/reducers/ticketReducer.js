@@ -1,4 +1,5 @@
 export default function ticketReducer(state, action) {
+  console.log(action);
   switch (action.type) {
     case "ADD_TICKET":
       return { ...state, tickets: [...state.tickets, action.payload] };
