@@ -1,5 +1,6 @@
 export default function ticketReducer(state, action) {
-  console.log(action);
+  //Comment out below line in production
+  console.log(action); //------This helps to see the action that is being dispatched
   switch (action.type) {
     case "ADD_TICKET":
       return { ...state, tickets: [...state.tickets, action.payload] };
@@ -20,6 +21,10 @@ export default function ticketReducer(state, action) {
           return ticket.id !== action.payload.id;
         }),
       };
+    case "SET_EDITING_TICKET":
+      return { ...state, editingTicket: action.payload };
+    case "CLEAR_EDITING_TICKET":
+      return { ...state, editingTicket: null };
     default:
       return state;
   }

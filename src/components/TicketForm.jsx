@@ -1,7 +1,7 @@
 import { clear } from "@testing-library/user-event/dist/clear";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function TicketForm({ dispatch }) {
+export default function TicketForm({ dispatch, editingTicket }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("1");
@@ -11,6 +11,15 @@ export default function TicketForm({ dispatch }) {
     3: "High",
   };
 
+  useEffect(() => {
+    if (editingTicket) {
+      setTitle(editingTicket.title);
+      setDescription(editingTicket.description);
+      setPriority(editingTicket.priority);
+    } else {
+      clearFrom();
+    }
+  }, [editingTicket]);
   const clearFrom = () => {
     setTitle("");
     setDescription("");
@@ -20,12 +29,15 @@ export default function TicketForm({ dispatch }) {
   const handelSubmit = (e) => {
     e.preventDefault();
     const ticketData = {
-      id: new Date().toISOString(),
+      id: editingTicket ? editingTicket.id : new Date().toISOString(),
       title,
       description,
       priority,
     };
-    dispatch({ type: "ADD_TICKET", payload: ticketData });
+    dispatch({
+      type: editingTicket ? "UPDATE_TICKET" : "ADD_TICKET",
+      payload: ticketData,
+    });
     clearFrom();
   };
 
