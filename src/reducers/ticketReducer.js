@@ -13,14 +13,25 @@ export default function ticketReducer(state, action) {
           }
           return ticket;
         }),
+        editingTicket: null,
       };
     case "DELETE_TICKET":
-      return {
-        ...state,
-        tickets: state.tickets.filter((ticket) => {
-          return ticket.id !== action.payload.id;
-        }),
-      };
+      if (state.editingTicket && state.editingTicket.id === action.payload.id) {
+        return {
+          ...state,
+          tickets: state.tickets.filter((ticket) => {
+            return ticket.id !== action.payload.id;
+          }),
+          editingTicket: null,
+        };
+      } else {
+        return {
+          ...state,
+          tickets: state.tickets.filter((ticket) => {
+            return ticket.id !== action.payload.id;
+          }),
+        };
+      }
     case "SET_EDITING_TICKET":
       return { ...state, editingTicket: action.payload };
     case "CLEAR_EDITING_TICKET":
